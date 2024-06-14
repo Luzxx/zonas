@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú Desplegable de Zonas y Barrios</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #FFB6C1, #FFC0CB);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .form-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #555;
+        }
+        select, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            background: #FF69B4;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #FF1493;
+        }
+        .description {
+            text-align: left;
+            color: #555;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Selecciona tu Zona</h1>
+        <form>
+            <label for="zona">Zona:</label>
+            <select id="zona" name="zona" onchange="showDescription()">
+                <option value="norte">Norte</option>
+                <option value="sur">Sur</option>
+                <option value="oeste">Oeste</option>
+                <option value="caba">CABA</option>
+                <option value="gba">Gran Buenos Aires</option>
+            </select>
+            <div id="description" class="description"></div>
+        </form>
+        <div class="footer" id="distance"></div>
+    </div>
+
+    <script>
+        function showDescription() {
+            const descriptions = {
+                norte: `
+                    <label for="barrios-norte">Barrios:</label>
+                    <select id="barrios-norte" onchange="showDistance(this.value)">
+                        <option value="Vicente López">Vicente López</option>
+                        <option value="San Isidro">San Isidro</option>
+                        <option value="Tigre">Tigre</option>
+                        <option value="San Fernando">San Fernando</option>
+                        <option value="San Martín">San Martín</option>
+                    </select>
+                `,
+                sur: `
+                    <label for="barrios-sur">Barrios:</label>
+                    <select id="barrios-sur" onchange="showDistance(this.value)">
+                        <option value="Avellaneda">Avellaneda</option>
+                        <option value="Lanús">Lanús</option>
+                        <option value="Lomas de Zamora">Lomas de Zamora</option>
+                        <option value="Quilmes">Quilmes</option>
+                        <option value="Berazategui">Berazategui</option>
+                        <option value="Florencio Varela">Florencio Varela</option>
+                        <option value="Almirante Brown">Almirante Brown</option>
+                        <option value="Esteban Echeverría">Esteban Echeverría</option>
+                        <option value="Ezeiza">Ezeiza</option>
+                    </select>
+                `,
+                oeste: `
+                    <label for="barrios-oeste">Barrios:</label>
+                    <select id="barrios-oeste" onchange="showDistance(this.value)">
+                        <option value="Morón">Morón</option>
+                        <option value="Hurlingham">Hurlingham</option>
+                        <option value="Ituzaingó">Ituzaingó</option>
+                        <option value="Merlo">Merlo</option>
+                        <option value="Moreno">Moreno</option>
+                        <option value="Tres de Febrero">Tres de Febrero</option>
+                        <option value="La Matanza">La Matanza</option>
+                        <option value="Marcos Paz">Marcos Paz</option>
+                    </select>
+                `,
+                caba: `
+                    <label for="barrios-caba">Barrios:</label>
+                    <select id="barrios-caba" onchange="showDistance(this.value)">
+                        <option value="Agronomía">Agronomía</option>
+                        <option value="Almagro">Almagro</option>
+                        <option value="Balvanera">Balvanera</option>
+                        <option value="Barracas">Barracas</option>
+                        <option value="Belgrano">Belgrano</option>
+                        <option value="Boedo">Boedo</option>
+                        <option value="Caballito">Caballito</option>
+                        <option value="Chacarita">Chacarita</option>
+                        <option value="Coghlan">Coghlan</option>
+                        <option value="Colegiales">Colegiales</option>
+                        <option value="Constitución">Constitución</option>
+                        <option value="Flores">Flores</option>
+                        <option value="Floresta">Floresta</option>
+                        <option value="La Boca">La Boca</option>
+                        <option value="La Paternal">La Paternal</option>
+                        <option value="Liniers">Liniers</option>
+                        <option value="Mataderos">Mataderos</option>
+                        <option value="Monte Castro">Monte Castro</option>
+                        <option value="Nueva Pompeya">Nueva Pompeya</option>
+                        <option value="Núñez">Núñez</option>
+                        <option value="Palermo">Palermo</option>
+                        <option value="Parque Avellaneda">Parque Avellaneda</option>
+                        <option value="Parque Chacabuco">Parque Chacabuco</option>
+                        <option value="Parque Chas">Parque Chas</option>
+                        <option value="Parque Patricios">Parque Patricios</option>
+                        <option value="Puerto Madero">Puerto Madero</option>
+                        <option value="Recoleta">Recoleta</option>
+                        <option value="Retiro">Retiro</option>
+                        <option value="Saavedra">Saavedra</option>
+                        <option value="San Cristóbal">San Cristóbal</option>
+                        <option value="San Nicolás">San Nicolás</option>
+                        <option value="San Telmo">San Telmo</option>
+                        <option value="Vélez Sarsfield">Vélez Sarsfield</option>
+                        <option value="Versalles">Versalles</option>
+                        <option value="Villa Crespo">Villa Crespo</option>
+                        <option value="Villa del Parque">Villa del Parque</option>
+                        <option value="Villa Devoto">Villa Devoto</option>
+                        <option value="Villa General Mitre">Villa General Mitre</option>
+                        <option value="Villa Lugano">Villa Lugano</option>
+                        <option value="Villa Luro">Villa Luro</option>
+                        <option value="Villa Ortúzar">Villa Ortúzar</option>
+                        <option value="Villa Pueyrredón">Villa Pueyrredón</option>
+                        <option value="Villa Real">Villa Real</option>
+                        <option value="Villa Riachuelo">Villa Riachuelo</option>
+                        <option value="Villa Santa Rita">Villa Santa Rita</option>
+                        <option value="Villa Soldati">Villa Soldati</option>
+                        <option value="Villa Urquiza">Villa Urquiza</option>
+                    </select>
+                `,
+                gba: `
+                    <label for="barrios-gba">Barrios:</label>
+                    <select id="barrios-gba" onchange="showDistance(this.value)">
+                        <option value="Avellaneda">Avellaneda</option>
+                        <option value="Lanús">Lanús</option>
+                        <option value="Lomas de Zamora">Lomas de Zamora</option>
+                        <option value="Quilmes">Quilmes</option>
+                        <option value="Berazategui">Berazategui</option>
+                        <option value="Florencio Varela">Florencio Varela</option>
+                        <option value="Almirante Brown">Almirante Brown</option>
+                        <option value="Esteban Echeverría">Esteban Echeverría</option>
+                        <option value="Ezeiza">Ezeiza</option>
+                        <option value="La Matanza">La Matanza</option>
+                        <option value="Morón">Morón</option>
+                        <option value="Hurlingham">Hurlingham</option>
+                        <option value="Ituzaingó">Ituzaingó</option>
+                        <option value="Merlo">Merlo</option>
+                        <option value="Moreno">Moreno</option>
+                        <option value="San Fernando">San Fernando</option>
+                        <option value="San Isidro">San Isidro</option>
+                        <option value="San Martín">San Martín</option>
+                        <option value="Tres de Febrero">Tres de Febrero</option>
+                        <option value="Tigre">Tigre</option>
+                        <option value="Vicente López">Vicente López</option>
+                    </select>
+                `
+            };
+            document.getElementById('description').innerHTML = descriptions[document.getElementById('zona').value];
+        }
+
+        function showDistance(barrio) {
+            const distances = {
+                "Vicente López": "45 km",
+                "San Isidro": "49 km",
+                "Tigre": "55 km",
+                "San Fernando": "52 km",
+                "San Martín": "38 km",
+                "Avellaneda": "36 km",
+                "Lanús": "34 km",
+                "Lomas de Zamora": "31 km",
+                "Quilmes": "43 km",
+                "Berazategui": "47 km",
+                "Florencio Varela": "45 km",
+                "Almirante Brown": "29 km",
+                "Esteban Echeverría": "24 km",
+                "Ezeiza": "17 km",
+                "Morón": "26 km",
+                "Hurlingham": "31 km",
+                "Ituzaingó": "33 km",
+                "Merlo": "36 km",
+                "Moreno": "40 km",
+                "Tres de Febrero": "35 km",
+                "La Matanza": "28 km",
+                "Marcos Paz": "39 km",
+                "Agronomía": "42 km",
+                "Almagro": "47 km",
+                "Balvanera": "45 km",
+                "Barracas": "47 km",
+                "Belgrano": "49 km",
+                "Boedo": "44 km",
+                "Caballito": "43 km",
+                "Chacarita": "45 km",
+                "Coghlan": "50 km",
+                "Colegiales": "47 km",
+                "Constitución": "46 km",
+                "Flores": "42 km",
+                "Floresta": "42 km",
+                "La Boca": "48 km",
+                "La Paternal": "43 km",
+                "Liniers": "39 km",
+                "Mataderos": "37 km",
+                "Monte Castro": "41 km",
+                "Nueva Pompeya": "44 km",
+                "Núñez": "51 km",
+                "Palermo": "46 km",
+                "Parque Avellaneda": "40 km",
+                "Parque Chacabuco": "43 km",
+                "Parque Chas": "45 km",
+                "Parque Patricios": "45 km",
+                "Puerto Madero": "49 km",
+                "Recoleta": "48 km",
+                "Retiro": "50 km",
+                "Saavedra": "51 km",
+                "San Cristóbal": "45 km",
+                "San Nicolás": "48 km",
+                "San Telmo": "47 km",
+                "Vélez Sarsfield": "39 km",
+                "Versalles": "40 km",
+                "Villa Crespo": "45 km",
+                "Villa del Parque": "44 km",
+                "Villa Devoto": "42 km",
+                "Villa General Mitre": "43 km",
+                "Villa Lugano": "38 km",
+                "Villa Luro": "40 km",
+                "Villa Ortúzar": "45 km",
+                "Villa Pueyrredón": "46 km",
+                "Villa Real": "41 km",
+                "Villa Riachuelo": "37 km",
+                "Villa Santa Rita": "44 km",
+                "Villa Soldati": "42 km",
+                "Villa Urquiza": "47 km",
+                "San Fernando": "52 km",
+                "Tres de Febrero": "35 km",
+                "San Isidro": "49 km",
+                "San Martín": "38 km",
+                "Tigre": "55 km",
+                "Vicente López": "45 km"
+            };
+
+            document.getElementById('distance').innerText = "Distancia desde Puente del Inca 2050, B1812 Tristán Suárez: " + (distances[barrio] || "Distancia no disponible");
+        }
+    </script>
+</body>
+</html>
